@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchData } from '../redux/chatSlice';
+import { fetchData } from '../../redux/chatSlice';
+import Loader from '../Loader';
+import CardInbox from './CardInbox';
 
 const Message = () => {
   const dispatch = useDispatch();
@@ -9,15 +11,11 @@ const Message = () => {
     dispatch(fetchData());
   }, [dispatch]);
 
-  const { chat, status, error } = useSelector((state) => state.chat);
+  const { list, status, error } = useSelector((state) => state.chat);
 
   let content;
   if (status === 'loading') {
-    content = (
-      <div className="w-full h-full flex justify-center items-center">
-        <div>Loading...</div>
-      </div>
-    );
+    content = <Loader teks={'Chat'} />;
   }
 
   if (status === 'failed') {
@@ -25,7 +23,13 @@ const Message = () => {
   }
 
   if (status === 'succeeded') {
-    content = <div>Success</div>;
+    content = (
+      <div>
+        {list.map((item, i) => {
+          return <CardInbox key={i} data={item} index={i} />;
+        })}
+      </div>
+    );
   }
 
   return (
@@ -52,7 +56,7 @@ const Message = () => {
             </div>
           </div>
         </div>
-        <div className="w-full box-h mt-[22px] overflow-y-auto">{content}</div>
+        <div className="w-full box-h overflow-y-auto scroll-bar">{content}</div>
       </div>
     </>
   );

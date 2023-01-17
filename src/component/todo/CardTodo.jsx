@@ -1,10 +1,10 @@
 import { format, parseISO } from 'date-fns';
 import React, { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { deleteTodo, editCheckedTodo, editDateTodo, editDescTodo } from '../redux/todoSlice';
-import Timer from './Timer';
+import { deleteTodo, editCheckedTodo, editDateTodo, editDescTodo } from '../../redux/todoSlice';
+import Timer from '../Timer';
 
-const CardTodo = ({ data }) => {
+const CardTodo = ({ data, index }) => {
   const [open, setOpen] = useState(false);
   const [checked, setChecked] = useState(data.completed);
   const [date, setDate] = useState(data.date);
@@ -14,11 +14,13 @@ const CardTodo = ({ data }) => {
 
   const dispatch = useDispatch();
 
-  const dates = new Date().toISOString();
-  const dateNow = parseISO(dates);
-  const deadline = parseISO(data.date);
-
-  const formatDate = format(deadline, 'dd/MM/yyyy');
+  let formatDate;
+  if (date === undefined || date === '') {
+    formatDate = '';
+  } else {
+    const deadline = parseISO(data.date);
+    formatDate = format(deadline, 'dd/MM/yyyy');
+  }
 
   const editDates = (e) => {
     setDate(e.target.value);
@@ -44,7 +46,11 @@ const CardTodo = ({ data }) => {
 
   return (
     <>
-      <div className="flex justify-between gap-x-[22px] py-[22px] border-b-[1px] border-primary-light transition-all duration-500">
+      <div
+        className={`flex justify-between gap-x-[22px] py-[22px] transition-all duration-500 ${
+          index === 0 ? 'border-none' : 'border-t-[1px] border-primary-light'
+        }`}
+      >
         <div className="w-[18px] h-[18px] relative">
           <input
             type="checkbox"
@@ -84,7 +90,7 @@ const CardTodo = ({ data }) => {
               {data.title}
             </h4>
             <div className="flex justify-between items-center gap-x-4">
-              {dateNow <= deadline ? <Timer timestamp={date} /> : ''}
+              {data.completed === false && <Timer timestamp={data.date} />}
               <p className="text-xs text-primary-gray">{formatDate}</p>
               <button
                 className={` transition-all duration-200 ease-linear  ${!open ? 'rotate-180' : 'rotate-0'}`}

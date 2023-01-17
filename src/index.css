@@ -13,3 +13,23 @@ body {
 .box-h {
   height: calc(100% - 70px);
 }
+
+.scroll-bar::-webkit-scrollbar {
+  @apply w-2;
+}
+
+.scroll-bar::-webkit-scrollbar-track {
+  @apply bg-white rounded-full;
+}
+
+.scroll-bar::-webkit-scrollbar-thumb {
+  @apply bg-[#bdbdbd] rounded-full;
+}
+
+.dot-truncate {
+  width: calc(100% - 64px);
+}
+
+.chat-h {
+  height: calc(100% - 130px);
+}

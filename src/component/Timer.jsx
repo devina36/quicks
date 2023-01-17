@@ -3,9 +3,13 @@ import { parseISO, formatDistanceToNow } from 'date-fns';
 
 const Timer = ({ timestamp }) => {
   let time = '';
-  if (timestamp) {
-    const date = parseISO(timestamp);
-    const timer = formatDistanceToNow(date);
+
+  const dates = new Date().toISOString();
+  const dateNow = parseISO(dates);
+  const deadline = parseISO(timestamp);
+
+  if (deadline >= dateNow) {
+    const timer = formatDistanceToNow(deadline);
     time = `${timer} left`;
   }
 

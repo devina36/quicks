@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { NavLink, Route, Routes, useLocation, useNavigate, useRoutes } from 'react-router-dom';
-import Message from './component/Message';
-import Task from './component/Task';
-// import About from './component/About';
+import Home from './component/Home';
+import ChatBox from './component/inbox/ChatBox';
+import Message from './component/inbox/Message';
+import Task from './component/todo/Task';
 
 function App() {
   const [open, setOpen] = useState(false);
@@ -14,10 +15,11 @@ function App() {
     <>
       <div className="fixed bottom-[27px] right-[27px]">
         {box && (
-          <div className="w-[38vw] max-w-[734px] bg-white h-[73vh] max-h-[737px] py-6 px-8 rounded-md mb-3 ">
+          <div className="w-[38vw] max-w-[734px] relative bg-white h-[73vh] max-h-[737px] py-6 px-8 rounded-md mb-3 ">
             <Routes>
               <Route path="task" element={<Task />} />
               <Route path="inbox" element={<Message />} />
+              <Route path="inbox/:id" element={<ChatBox />} />
             </Routes>
           </div>
         )}
@@ -152,9 +154,9 @@ function App() {
         </div>
       </div>
 
-      {/* <Routes>
-        <Route path="/*" element={<About />} />
-      </Routes> */}
+      <Routes>
+        <Route path="/*" element={<Home />} />
+      </Routes>
     </>
   );
 }

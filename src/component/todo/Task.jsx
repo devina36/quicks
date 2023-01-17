@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { ColorRing } from 'react-loader-spinner';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchTodo } from '../redux/todoSlice';
+import { fetchTodo } from '../../redux/todoSlice';
 import CardTodo from './CardTodo';
+import Loader from '../Loader';
 import NewTodo from './NewTodo';
 
 const Task = () => {
@@ -19,17 +20,7 @@ const Task = () => {
   let content;
 
   if (status === 'loading') {
-    content = (
-      <div className="w-full h-full flex flex-col justify-center items-center">
-        <ColorRing
-          colors={['#c4c4c4', '#c4c4c4', '#c4c4c4', '#c4c4c4', '#c4c4c4']}
-          visible={true}
-          height="130"
-          width="130"
-        />
-        <span className="text-primary-gray mt-1">Loading Task List...</span>
-      </div>
-    );
+    content = <Loader teks={'Task List'} />;
   }
 
   if (status === 'failed') {
@@ -40,7 +31,7 @@ const Task = () => {
     content = (
       <div>
         {todo.map((item, i) => {
-          return <CardTodo key={i} data={item} />;
+          return <CardTodo key={i} data={item} index={i} />;
         })}
         {newtodo && <NewTodo closes={setNewTodo} />}
       </div>
@@ -79,7 +70,7 @@ const Task = () => {
           New Task
         </button>
       </div>
-      <div className="w-full box-h overflow-y-auto">{content}</div>
+      <div className="w-full box-h overflow-y-auto scroll-bar">{content}</div>
     </div>
   );
 };

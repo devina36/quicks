@@ -1,13 +1,13 @@
 import React, { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { addTodo } from '../redux/todoSlice';
+import { addTodo } from '../../redux/todoSlice';
 
 const NewTodo = ({ closes }) => {
   const [open, setOpen] = useState(true);
   const [checked, setChecked] = useState(false);
 
   const [title, setTitle] = useState('');
-  const [date, setDate] = useState();
+  const [date, setDate] = useState('');
   const [desc, setDesc] = useState('');
   const [editDesc, setEditDesc] = useState(false);
 
@@ -31,7 +31,7 @@ const NewTodo = ({ closes }) => {
   };
 
   return (
-    <form className="py-[22px] border-b-[1px] border-primary-light" onSubmit={handleSubmit}>
+    <form className="py-[22px] border-t-[1px] border-primary-light" onSubmit={handleSubmit}>
       <div className="flex justify-between gap-x-[22px]  items-center">
         <div className="w-[18px] h-[18px] relative">
           <input
