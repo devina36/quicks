@@ -33,7 +33,10 @@ const CardInbox = ({ data, index }) => {
         </div>
         <div className="text-primary-gray">
           <div className="flex gap-x-4">
-            <Link to={`/inbox/${data.id}`} className="text-primary-blue w-auto font-bold text-sm capitalize">
+            <Link
+              to={`/inbox/${data.id}`}
+              className="text-primary-blue hover:underline w-auto font-bold text-sm capitalize"
+            >
               {data.title}
             </Link>
             <p className="text-[11px] min-w-[115px]">{dateLast}</p>

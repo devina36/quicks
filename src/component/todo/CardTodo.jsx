@@ -130,7 +130,7 @@ const CardTodo = ({ data, index }) => {
                 />
               </div>
               <div className="flex mt-4 gap-x-5">
-                <span onClick={() => setEditDesc(true)}>
+                <span className="cursor-pointer" onClick={() => setEditDesc(true)}>
                   <svg width="15" height="15" viewBox="0 0 24 23" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
                       className={
@@ -145,7 +145,7 @@ const CardTodo = ({ data, index }) => {
                     />
                   </svg>
                 </span>
-                <div className="w-full" onClick={() => setEditDesc(true)}>
+                <div className="w-full cursor-pointer" onClick={() => setEditDesc(true)}>
                   {editDesc ? (
                     <textarea
                       onKeyPress={descSubmit}

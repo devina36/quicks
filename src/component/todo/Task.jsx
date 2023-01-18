@@ -66,7 +66,10 @@ const Task = () => {
             </div>
           )}
         </div>
-        <button className=" bg-primary-blue py-[14px] px-4 text-white rounded-[5px]" onClick={() => setNewTodo(true)}>
+        <button
+          className=" bg-primary-blue py-[14px] px-4 hover:bg-opacity-80 text-white rounded-[5px]"
+          onClick={() => setNewTodo(true)}
+        >
           New Task
         </button>
       </div>

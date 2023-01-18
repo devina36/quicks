@@ -38,7 +38,7 @@ const OverLay = () => {
       <div className="flex items-center justify-end">
         <div
           className={`transition-all rounded-full duration-200 ease-in-out relative group ${
-            !open ? 'translate-x-24 opacity-0' : ''
+            !open ? 'translate-x-[160px] opacity-0' : ''
           } ${task ? 'order-last ml-8 h-[68px] w-[68px]' : 'ml-3 w-[60px] h-[60px]'}`}
         >
           <div
@@ -61,7 +61,6 @@ const OverLay = () => {
               setBox(true);
               setTask(true);
               setInbox(false);
-              // navigate('/task');
             }}
           >
             <span className={`absolute w-full text-white text-center -top-8 ${box && 'hidden'}`}>Task</span>
@@ -80,7 +79,7 @@ const OverLay = () => {
         {/* inbox */}
         <div
           className={`transition-all rounded-full duration-200 ease-in-out relative group ${
-            !open ? 'translate-x-24 opacity-0' : ''
+            !open ? 'translate-x-[85px] opacity-0' : ''
           } ${inbox ? 'order-last ml-8 h-[68px] w-[68px]' : 'ml-3 w-[60px] h-[60px]'}`}
         >
           <div
@@ -121,7 +120,7 @@ const OverLay = () => {
         {!box && (
           <button
             onClick={() => setOpen(!open)}
-            className="w-[68px] h-[68px] bg-primary-blue rounded-full flex justify-center items-center  z-10 order-last ml-6"
+            className="w-[68px] h-[68px] bg-primary-blue rounded-full flex justify-center items-center  z-50 order-last ml-6"
           >
             <svg width="18" height="32" viewBox="0 0 18 32" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
