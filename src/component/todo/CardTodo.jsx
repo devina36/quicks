@@ -1,8 +1,9 @@
 import { format, parseISO } from 'date-fns';
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { deleteTodo, editCheckedTodo, editDateTodo, editDescTodo } from '../../redux/todoSlice';
 import Timer from '../Timer';
+import OverlayDelete from './OverlayDelete';
 
 const CardTodo = ({ data, index }) => {
   const [open, setOpen] = useState(false);
@@ -171,16 +172,11 @@ const CardTodo = ({ data, index }) => {
             />
           </svg>
 
-          {dotDelete && (
-            <div className="absolute -bottom-[55px] right-0 border-[1px] border-primary-light rounded-md w-[126px] bg-white z-20">
-              <button
-                className="text-start text-ind-red px-4 py-3 text-sm w-full"
-                onClick={() => dispatch(deleteTodo({ id: data.id }))}
-              >
-                Delete
-              </button>
-            </div>
-          )}
+          <OverlayDelete
+            open={dotDelete}
+            setOpen={() => setDotDelete(false)}
+            remove={() => dispatch(deleteTodo({ id: data.id }))}
+          />
         </button>
       </div>
     </>

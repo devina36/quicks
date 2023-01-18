@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchData } from '../../redux/chatSlice';
 import Loader from '../Loader';
@@ -6,10 +6,11 @@ import CardInbox from './CardInbox';
 
 const Message = () => {
   const dispatch = useDispatch();
+  const [search, setSearch] = useState('');
 
   useEffect(() => {
     dispatch(fetchData());
-  }, [dispatch]);
+  }, [dispatch, search]);
 
   const { list, status, error } = useSelector((state) => state.chat);
 
@@ -23,13 +24,25 @@ const Message = () => {
   }
 
   if (status === 'succeeded') {
-    content = (
-      <div>
-        {list.map((item, i) => {
-          return <CardInbox key={i} data={item} index={i} />;
-        })}
-      </div>
-    );
+    {
+      search === ''
+        ? (content = (
+            <div>
+              {list.map((item, i) => {
+                return <CardInbox key={i} data={item} index={i} />;
+              })}
+            </div>
+          ))
+        : (content = (
+            <div>
+              {list
+                .filter((data) => data.title.toLowerCase().includes(search))
+                .map((item, i) => {
+                  return <CardInbox key={i} data={item} index={i} />;
+                })}
+            </div>
+          ));
+    }
   }
 
   return (
@@ -39,10 +52,12 @@ const Message = () => {
           <div className="w-4/5 mx-auto py-2 relative">
             <input
               type="text"
-              className="w-full placeholder:text-[#333] bg-transparent focus:outline-none"
+              className="w-full placeholder:text-[#333] text-primary-gray bg-transparent focus:outline-none"
               placeholder="Search"
-              name=""
-              id=""
+              name="search"
+              id="search"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
             />
             <div className="absolute right-0 top-1/2 -translate-y-1/2">
               <svg width="15" height="15" viewBox="0 0 32 31" fill="none" xmlns="http://www.w3.org/2000/svg">

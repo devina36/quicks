@@ -1,17 +1,15 @@
-import React, { useEffect, useRef } from 'react';
-import { useSelector } from 'react-redux';
+import { format, parseISO } from 'date-fns';
+import React, { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
+import { addChat } from '../../redux/chatSlice';
+import Bubble from './Bubble';
 
-const ChatBox = () => {
+const ChatBox = ({ closes }) => {
   const { id } = useParams();
-
+  const [body, setBody] = useState('');
   const navigate = useNavigate();
-
-  const { list } = useSelector((state) => state.chat);
-
-  const data = list.filter((item) => item.id === parseInt(id));
-
-  const chat = data[0];
+  const dispatch = useDispatch();
 
   const boxChat = useRef(null);
 
@@ -21,7 +19,18 @@ const ChatBox = () => {
 
   useEffect(() => {
     scrollToBottom();
-  }, [boxChat]);
+  });
+
+  const { list } = useSelector((state) => state.chat);
+
+  const data = list.filter((item) => item.id === parseInt(id));
+
+  const chat = data[0];
+
+  const sendChat = () => {
+    dispatch(addChat({ postId: chat.id, body }));
+    setBody('');
+  };
 
   return (
     <>
@@ -40,7 +49,7 @@ const ChatBox = () => {
             <h4 className="text-primary-blue capitalize font-semibold truncate">{chat.title}</h4>
             <p className="text-[#333] text-[11px]">6 Participants</p>
           </div>
-          <button aria-label="Close" className="min-w-16">
+          <button aria-label="Close" onClick={closes} className="min-w-16">
             <svg width="16" height="16" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
                 className="fill-[#333]"
@@ -54,23 +63,24 @@ const ChatBox = () => {
 
       <div className=" my-[70px] chat-h overflow-y-auto scroll-bar">
         <div className="w-full flex flex-col">
-          {chat.chat.map((item) => {
-            return (
-              <div key={item.id} className=" max-w-[80%]">
-                {item.body}
-              </div>
-            );
+          {chat.chat.map((item, i) => {
+            return <Bubble key={item.id} item={item} index={i} />;
           })}
           <div ref={boxChat} />
         </div>
       </div>
 
-      <div className="absolute w-full bottom-0 left-0 px-5 pb-5 pt-3 bg-white">
+      <div className="absolute w-full bottom-0 left-0 px-5 pb-5 pt-3 flex items-center gap-x-3 rounded-b-md bg-white">
         <input
           type="text"
+          value={body}
+          onChange={(e) => setBody(e.target.value)}
           placeholder="Type a new message"
           className="py-3 px-4 w-full border-[1px] placeholder:text-[#333] border-primary-light rounded-md"
         />
+        <button className="w-fit px-4 py-3 bg-primary-blue text-white rounded-md" onClick={sendChat}>
+          Send
+        </button>
       </div>
     </>
   );
